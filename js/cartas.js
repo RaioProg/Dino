@@ -3,6 +3,8 @@ const contenedorScroll = document.querySelector('.scroll');
 const contador = document.getElementById('contador-cartas');
 
 const CARTAS_POR_SOBRE = 5;
+let temporizadorReveladas = null;
+let temporizadorLimpieza = null;
 let coleccion = JSON.parse(localStorage.getItem('coleccion')) || [];
 
 const norm = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -67,11 +69,22 @@ function abrirSobre(periodo) {
     const sacadas = mezcla.slice(0, CARTAS_POR_SOBRE);
     const revelado = document.getElementById('carta-revelada-info');
 
-    document.getElementById('carta-revelada-info').innerHTML = sacadas.map(htmlCarta).join('');
-    setTimeout(() => {
-       revelado.classList.add('oculto1');
-       setTimeout(() => revelado.classList.remove('oculto1'), 100);
+    // cancelar timers anteriores y volver a mostrar el contenedor
+    clearTimeout(temporizadorReveladas);
+    clearTimeout(temporizadorLimpieza);
+    revelado.classList.remove('oculto');
+
+    revelado.innerHTML = sacadas.map(htmlCarta).join('');
+
+    // a los 5 s: animación de salida; a los 0,6 s más: vaciar
+    temporizadorReveladas = setTimeout(() => {
+        revelado.classList.add('oculto');
+        temporizadorLimpieza = setTimeout(() => {
+            revelado.innerHTML = '';
+            revelado.classList.remove('oculto');
+        }, 600);
     }, 5000);
+
     agregarCartas(sacadas);
 }
 

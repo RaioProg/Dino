@@ -398,10 +398,21 @@ body {
     .carta-revelada-info .card { animation: none; }
 }
 
-.carta-revelada-info.oculto1 {
+.carta-revelada-info {
+    transition: opacity .5s, transform .5s;
+}
+
+.carta-revelada-info.oculto {
     opacity: 0;
+    display:flex;
     transform: translateX(60px);
-    visibility: hidden;
     pointer-events: none;
-    transition: opacity .5s, transform .5s, visibility 0s .5s;
+}
+
+.carta-revelada-info.oculto .card {
+    animation: recoger .5s ease-in forwards;
+}
+
+@keyframes recoger {
+    to { opacity: 0; transform: translateX(80px) rotate(12deg) scale(.85); }
 }
