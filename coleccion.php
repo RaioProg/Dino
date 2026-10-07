@@ -57,7 +57,9 @@ try {
         $sacadas = array_slice($pool, 0, CARTAS_POR_SOBRE);
 
         $pdo->beginTransaction();
-        $ins = $pdo->prepare('INSERT INTO coleccion (username, dinosaurio) VALUES (?, ?)');
+        $ins = $pdo->prepare('INSERT INTO colecciones (usuario_id, dinosaurio_id) 
+        SELECT u.id, d.id FROM usuarios u, dinosaurios d WHERE u.username = ? AND d.nombre = ?'
+);
         foreach ($sacadas as $d) {
             $ins->execute([$usuario, $d['nombre']]);
         }

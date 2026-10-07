@@ -9,8 +9,8 @@ drop table if exists dinosaurios;
 
 create table usuarios(
 id int primary key auto_increment,
-username varchar(64) ,
-email varchar(1024),
+username varchar(64) unique,
+email varchar(255) unique,
 password_hash varchar(1024),
 fecha_obtencion datetime,
 ultima_obtencion date
@@ -18,23 +18,17 @@ ultima_obtencion date
 
 delimiter $$
 drop procedure if exists Registro2$$
-create procedure Registro2(in _username varchar(64), in _email varchar(1024), in _password_hash varchar(1024), out eror int)
+create procedure Registro2(in _username varchar(64), in _email varchar(255), in _password_hash varchar(255), out eror int)
 begin
-declare aux varchar(16);
-    set aux = null;
-    select username from usuarios where username like _username into aux;
-    if (_username like "") then
-        set eror = -1;
-    elseif (aux is not null) then
-        set eror = -2; -- Usuario ya existe (Duplicado)
-    elseif (_password_hash like "") then
-        set eror = -3;
-    else 
-		insert into usuarios(username, email, password_hash) values  (_username, _email, _password_hash);
-		set eror = 0;
-	end if;
+  if _username = '' then set eror = -1;
+  elseif exists (select 1 from usuarios where username = _username) then set eror = -2;
+  elseif _password_hash = '' then set eror = -3;
+  else
+    insert into usuarios(username, email, password_hash) values (_username, _email, _password_hash);
+    set eror = 0;
+  end if;
 end$$
-delimiter ; 
+delimiter;
 
 delimiter $$
 drop procedure if exists login2$$
@@ -52,33 +46,28 @@ end$$
 delimiter ;
 
 delimiter $$
-drop procedure if exists coleccion$$
-create procedure coleccion(in _username varchar(30), in _password_hash varchar(30), out eror int)
+drop procedure if exists ObtenerDinosaurios$$
+create procedure ObtenerDinosaurios()
 begin
-	SELECT nombre, especie, periodo,
-           imagen_url AS imagenUrl,
-           altura, largo, peso,
-           hp, vigor, ataque, defensa, agilidad
-    FROM dinosaurios;
+  select nombre, especie, periodo, imagen_url as imagenUrl,
+         altura, largo, peso, hp, vigor, ataque, defensa, agilidad
+  from dinosaurios;
 end$$
 delimiter ;
 
-DROP PROCEDURE IF EXISTS ObtenerColeccion;
-
-DELIMITER $$
-CREATE PROCEDURE ObtenerColeccion(IN p_username VARCHAR(100))
-BEGIN
-    SELECT d.nombre, d.especie, d.periodo,
-           d.imagen_url AS imagenUrl,
-           d.altura, d.largo, d.peso,
-           d.hp, d.vigor, d.ataque, d.defensa, d.agilidad
-    FROM coleccion c
-    JOIN dinosaurios d ON d.nombre = c.dinosaurio
-    WHERE c.username = p_username
-    ORDER BY c.id;
-END$$
-DELIMITER ;
-
+delimiter $$
+drop procedure if exists ObtenerColeccion$$
+create procedure ObtenerColeccion(in p_username varchar(64))
+begin
+  select d.nombre, d.especie, d.periodo, d.imagen_url as imagenUrl,
+         d.altura, d.largo, d.peso, d.hp, d.vigor, d.ataque, d.defensa, d.agilidad
+  from colecciones c
+  join usuarios u on u.id = c.usuario_id
+  join dinosaurios d on d.id = c.dinosaurio_id
+  where u.username = p_username
+  order by c.id;
+end$$
+delimiter ;
 
 create table dinosaurios(
 id int primary key auto_increment,
