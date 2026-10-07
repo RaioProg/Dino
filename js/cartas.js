@@ -65,8 +65,13 @@ function abrirSobre(periodo) {
         [mezcla[i], mezcla[j]] = [mezcla[j], mezcla[i]];
     }
     const sacadas = mezcla.slice(0, CARTAS_POR_SOBRE);
+    const revelado = document.getElementById('carta-revelada-info');
 
-    document.getElementById('carta-revelada').innerHTML = sacadas.map(htmlCarta).join('');
+    document.getElementById('carta-revelada-info').innerHTML = sacadas.map(htmlCarta).join('');
+    setTimeout(() => {
+       revelado.classList.add('oculto1');
+       setTimeout(() => revelado.classList.remove('oculto1'), 100);
+    }, 5000);
     agregarCartas(sacadas);
 }
 
@@ -88,3 +93,4 @@ async function iniciar() {
 }
 
 document.addEventListener('DOMContentLoaded', iniciar);
+

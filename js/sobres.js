@@ -23,8 +23,8 @@ function abrirSobre(periodo) {
 }
 
 function mostrarReveladas(cartas) {
-    // #carta-revelada ya existe en tu cartas.css
-    document.querySelector('#carta-revelada').innerHTML = cartas.map(htmlCarta).join('');
+    document.getElementById('carta-revelada-info').innerHTML = cartas.map(htmlCarta).join('');
+    
 }
 
 function pintarColeccion() {
@@ -39,3 +39,4 @@ document.querySelectorAll('.sobre').forEach(sobre => {
 });
 
 pintarColeccion(); // al cargar la página
+
