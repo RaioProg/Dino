@@ -7,7 +7,7 @@
 body {
     display: flex;
     justify-content: center;
-    padding: 24px 0;
+    padding: 30px 0;
     background: #4a5228;
     font-family: system-ui, sans-serif;
     color: bisque;
@@ -17,7 +17,7 @@ body {
     width: 80%;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
+    gap: 30px;
     padding: 16px;
     border: 2px solid #e8e2cc;
     border-radius: 30px;
@@ -67,16 +67,11 @@ body {
 }
 
 /* Tres columnas */
-.contenido {
-    display: grid;
-    grid-template-columns: 1fr 1.7fr 1fr;
-    gap: 20px;
-    padding: 8px;
 
-}
 
 .subcuadros {
     padding: 12px;
+    height: 600px;
 }
 
 .central {
@@ -184,8 +179,7 @@ body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    margin-top: 16px;
-    padding-right: 6px;
+
 }
           /* cambia por la clase real de la tarjeta */
 .lista-coleccion > * {
@@ -318,13 +312,19 @@ body {
 .central .pack-wrap { position: relative; z-index: 5; }
 
 .contenido {
-    grid-template-columns: 1.2fr 1.7fr 0.8fr;
+    grid-template-columns: 1.0fr 1.7fr 0.8fr;
     gap: 20px;
     padding: 8px;
+    display: grid;
 }
 
 .central {
     aspect-ratio: auto;
     align-self: start;
     min-height: 300px;
+}
+
+
+.pie{
+    heihgt: 140px;
 }
