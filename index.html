@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DinoFusion Cards - Acceso</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<body style="background-image: url('media/fondo.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <main class="tarjeta">
+    <h1 class="titulo"><span style="color: bisque; text-shadow: 2px 2px 0 rgb(209, 188, 161), 5px 6px 10px rgba(0, 0, 0, 0.5);">Dino</span>Fusion<br>Cards</h1>
+    <p class="subtitulo">Colecciona, fusiona y domina la era jurásica</p>
+
+    <!-- Botones para cambiar de formulario -->
+    <div class="pestanas">
+      <button type="button" id="btn-login" class="pestana activa">Iniciar sesión</button>
+      <button type="button" id="btn-registro" class="pestana">Crear cuenta</button>
+    </div>
+
+    <!-- FORMULARIO DE LOGIN: envía los datos a login.php -->
+    <form id="form-login" class="formulario" action="login.php" method="post">
+      <label for="login-email">Correo electrónico o Nombre de usuario</label>
+      <input type="text" id="login-email" name="email" required>
+
+      <label for="login-password">Contraseña</label>
+      <input type="password" id="login-password" name="password" required>
+
+      <button type="submit" class="boton">Entrar</button>
+    </form>
+
+    <!-- FORMULARIO DE REGISTRO: envía los datos a registro.php -->
+    <form id="form-registro" class="formulario oculto" action="registro.php" method="post">
+      <label for="registro-usuario">Nombre de jugador</label>
+      <input type="text" id="registro-usuario" name="username" required>
+
+      <label for="registro-email">Correo electrónico</label>
+      <input type="email" id="registro-email" name="email" required>
+
+      <label for="registro-password">Contraseña</label>
+      <input type="password" id="registro-password" name="password" required>
+
+      <label for="registro-repetir">Repite la contraseña</label>
+      <input type="password" id="registro-repetir" name="password_repetida" required>
+      <span for="no-coinciden" id="label-no-coinciden" class="error oculto">Las contraseñas no coinciden.</span>
+      <label for="registro-terminos">
+        <input type="checkbox" id="registro-terminos" name="terminos" required>
+        Acepto los <a href="#">términos y condiciones</a>
+      </label>
+      
+
+      <button type="submit" class="boton" id="submitR">Crear cuenta</button>
+    </form>
+  </main>
+
+  <script src="js/registro-inicio.js"></script>
+</body>
+</html>

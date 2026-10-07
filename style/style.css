@@ -1,0 +1,135 @@
+/* ---------- Colores (si quieres cambiar la paleta, hazlo aquí) ---------- */
+:root {
+  --tarjeta: #5d6632;
+  --campo: #4a5228;
+  --dorado: #ffc400;
+  --crema: #f5e9b8;
+  --subcuadro: #798541;
+}
+
+/* ---------- Página ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--crema);
+  font-family: Arial, sans-serif;
+}
+
+
+/* ---------- Tarjeta central ---------- */
+.tarjeta{
+  width: 35%;
+  max-width: 100%;
+  padding: 36px;
+  background-color: var(--tarjeta);
+  border-radius: 30px;
+}
+
+
+
+.titulo {
+  margin: 0;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--dorado);
+  text-shadow: 2px 2px 0 #b98a00, 5px 6px 10px rgba(0, 0, 0, 0.5);
+}
+
+.subtitulo {
+  margin: 12px 0 24px;
+  font-weight: bold;
+}
+
+/* ---------- Pestañas ---------- */
+.pestanas {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.pestana {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--crema);
+  background-color: transparent;
+  border: 2px solid var(--campo);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* La pestaña seleccionada se pinta de dorado */
+.pestana.activa {
+  color: #3d2f00;
+  background-color: var(--dorado);
+  border-color: var(--dorado);
+}
+
+/* ---------- Formularios ---------- */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+
+label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input {
+  padding: 12px;
+  font-size: 1rem;
+  color: var(--crema);
+  background-color: var(--campo);
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--dorado);
+}
+
+.boton {
+  margin-top: 18px;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #3d2f00;
+  background-color: var(--dorado);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #9c7400;
+  cursor: pointer;
+}
+
+.boton:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #9c7400;
+}
+
+
+.error {
+  display: inline;
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 4px;
+
+}
+.oculto {
+  display: none;
+
+}

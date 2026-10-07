@@ -1,0 +1,157 @@
+/* Cárgalo DESPUÉS de style2.css para que sobrescriba .caja y .banner */
+.carrusel {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    min-height: 240px;
+    padding: 0;
+}
+
+.diapositiva {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 72px 44px;
+    background: var(--fondo, #4a5a2c);
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.diapositiva.activa {
+    opacity: 1;
+    visibility: visible;
+}
+
+.texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 520px;
+}
+
+.etiqueta {
+    padding: 2px 12px;
+    border-radius: 999px;
+    background: #6cc4b4;
+    color: #1f3a36;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.diapositiva h2 {
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    line-height: 1.1;
+    color: bisque;
+    text-shadow: 2px 2px 0 rgb(209, 188, 161), 4px 5px 8px rgba(0, 0, 0, 0.4);
+}
+
+.diapositiva p {
+    color: #f3e6cf;
+    line-height: 1.4;
+}
+
+.boton {
+    margin-top: 6px;
+    padding: 8px 20px;
+    border-radius: 10px;
+    background: #ffc400;
+    color: #3d4223;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 0 #a87d00;
+}
+
+.boton:hover {
+    background: #ffd333;
+}
+
+.boton:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #a87d00;
+}
+
+.arte {
+    font-size: clamp(4rem, 12vw, 8rem);
+    line-height: 1;
+    filter: drop-shadow(4px 6px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* Flechas */
+.flecha {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    transform: translateY(-50%);
+    border: 2px solid #e0a63e;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    color: bisque;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.flecha:hover {
+    background: #e0a63e;
+    color: #3d4223;
+}
+
+.anterior { left: 12px; }
+.siguiente { right: 12px; }
+
+/* Puntos */
+.puntos {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+    transform: translateX(-50%);
+}
+
+.punto {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: 2px solid #e0a63e;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.punto.activo {
+    background: #ffc400;
+}
+
+.flecha:focus-visible,
+.punto:focus-visible,
+.boton:focus-visible {
+    outline: 3px solid bisque;
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .diapositiva {
+        grid-template-columns: 1fr;
+        padding: 20px 56px 44px;
+    }
+
+    .arte {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .diapositiva {
+        transition: none;
+    }
+}

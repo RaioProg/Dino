@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="style/carrusel.css">
+    <link rel="stylesheet" href="style/sobres.css">
+    <link rel="stylesheet" href="style/style2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/cartas.css">
+    <title>DinoFusion Cards</title>
+</head>
+<body>
+    <main class="tarjeta">
+ 
+        <!-- Cabecera: logo izquierdo, título, logo derecho -->
+        <header class="cabecera">
+            <div class="caja logo logo-icono">  
+                <svg viewBox="0 0 200 200" role="img" aria-label="DinoFusion Cards">
+                  <!-- Carta de atrás (verde azulado) -->
+                <rect x="40" y="30" width="100" height="140" rx="14" fill="#6cc4b4" stroke="#3a9a94" stroke-width="4" transform="rotate(-12 90 100)"/>
+ 
+                <!-- Carta de delante (dorada) con el dinosaurio -->
+                <g transform="rotate(10 112 106)">
+                    <rect x="62" y="36" width="100" height="140" rx="14" fill="#ffc400" stroke="#a87d00" stroke-width="4"/>
+                    <g transform="translate(108 112) scale(.85) translate(-108 -112)" fill="#3d4223" stroke="#3d4223" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="108" cy="126" rx="26" ry="15" stroke="none"/>
+                <path d="M128 122 C 142 110, 134 92, 143 78" fill="none" stroke-width="11"/>
+                <ellipse cx="149" cy="75" rx="10" ry="6.5" transform="rotate(-20 149 75)" stroke="none"/>
+                <path d="M86 124 C 72 124, 68 136, 78 140" fill="none" stroke-width="8"/>
+                <rect x="92" y="130" width="9" height="24" rx="4" stroke="none"/>
+                <rect x="114" y="130" width="9" height="24" rx="4" stroke="none"/>
+                <circle cx="152" cy="73" r="2" fill="#ffe4c4" stroke="none"/>
+                </g>
+            </g>
+ 
+                <!-- Hoja que asoma de la esquina -->
+                <path d="M0 0 C 14 -10, 14 -30, 0 -46 C -14 -30, -14 -10, 0 0Z" fill="#6cc4b4" stroke="#3a9a94" stroke-width="3" transform="translate(172 48) rotate(30)"/>
+</svg></div>
+            <h1 class="titulo"><span style="color: bisque; text-shadow: 2px 2px 0 rgb(209, 188, 161), 5px 6px 10px rgba(0, 0, 0, 0.5);">Dino</span>Fusion<br>Cards</h1>
+            <p class="inicio-de-sesión"></p>
+        </header>
+ 
+        <!-- Banner grande -->
+<section class="caja banner carrusel" role="region" aria-roledescription="carrusel" aria-label="Novedades">
+ 
+    <article class="diapositiva activa" style="--fondo: #4a5a2c;">
+        <div class="texto">
+            <span class="etiqueta">Nueva carta</span>
+            <h2>Tiranosaurio Rex</h2>
+            <p>El rey del Cretácico llega con 9 de ataque y fusión exclusiva con Velociraptor.</p>
+            <a class="boton" href="#">Ver carta</a>
+        </div>
+        <div class="arte" aria-hidden="true">🦖</div>
+    </article>
+ 
+    <article class="diapositiva" style="--fondo: #3f5a45;">
+        <div class="texto">
+            <span class="etiqueta">Expansión</span>
+            <h2>Era Triásica</h2>
+            <p>60 cartas nuevas, tres criaturas legendarias y el primer sobre gratis para estrenarla.</p>
+            <a class="boton" href="#">Abrir un sobre</a>
+        </div>
+        <div class="arte" aria-hidden="true">🌋</div>
+    </article>
+ 
+    <article class="diapositiva" style="--fondo: #5a4f2a;">
+        <div class="texto">
+            <span class="etiqueta">Parche 1.2</span>
+            <h2>Fusiones más equilibradas</h2>
+            <p>Ajustamos el daño de las fusiones de nivel 3 y corregimos errores del mazo.</p>
+            <a class="boton" href="#">Leer cambios</a>
+        </div>
+        <div class="arte" aria-hidden="true">🛠️</div>
+    </article>
+ 
+    <article class="diapositiva" style="--fondo: #46503a;">
+        <div class="texto">
+            <span class="etiqueta">Evento</span>
+            <h2>Torneo del fin de semana</h2>
+            <p>Gana cartas limitadas que no volverán a salir. Las inscripciones cierran el viernes.</p>
+            <a class="boton" href="#">Inscribirme</a>
+        </div>
+        <div class="arte" aria-hidden="true">🏆</div>
+    </article>
+ 
+    <button type="button" class="flecha anterior" aria-label="Novedad anterior">‹</button>
+    <button type="button" class="flecha siguiente" aria-label="Novedad siguiente">›</button>
+    <div class="puntos" role="group" aria-label="Elegir novedad"></div>
+</section>
+    <section class="contenido">
+        <section class="caja subcuadros lateral izq">
+            <button type="button" class="boton visible filtro" id="boton">Filtros</button>
+            <h3>Mi colección (<span id="contador-cartas">0</span>)</h3>
+            <div class="scroll">    
+                <div id="grid" class="lista-coleccion"></div>
+            </div>
+            
+            
+            
+            
+            
+            <aside class="panel-filtros oculto" id="panel-filtros">
+                <h2 class="filtros-titulo">Filtros</h2>
+                <div class="filtros-scroll">
+                <div class="filtro-grupo">
+                    <h3>Buscar</h3>
+                <input type="text" id="filtro-nombre" placeholder="Nombre del dinosaurio...">
+                </div>
+
+                <div class="filtro-grupo">
+                    <h3>Periodo</h3>
+                    <label><input type="checkbox" name="periodo" value="triasico"> Triásico</label>
+                    <label><input type="checkbox" name="periodo" value="jurasico"> Jurásico</label>
+                    <label><input type="checkbox" name="periodo" value="cretacico"> Cretácico</label>
+                </div>
+                </div>
+
+            <button type="button" id="limpiar-filtros" class="btn-limpiar">Limpiar filtros</button>
+            <button type="button" id="aplicar-filtros" class="btn-limpiar">Aplicar Filtros</button>
+
+        </aside>
+        </section>
+
+            <section class="fondo subcuadros central" style="background-image: url('../Dino/media/fondo-cartas.jpg');">
+                <h1 class="titulo-sobre">🌴 Toca un sobre para abrirlo 🌴</h1>
+                <p class="subtitulo-sobre">Cada sobre esconde 5 cartas de dinosaurios. ¿Cuál te tocará? </p>
+                <div class="caja blanco">
+                <div class="pack-wrap" data-periodo="jurasico"><div class="pack jur" tabindex="0" role="img" aria-label="Sobre Jurásico" >
+                    <span class="badge">6+</span>
+                    <div class="icono">DINO<br>CARTAS<small>JUEGO DE CARTAS COLECCIONABLES</small></div>
+                    <div class="beast">🦕</div>
+                    <div class="era">JURÁSICO</div>
+                    <div class="foot"><b>5</b> CARTAS DE JUEGO ADICIONALES</div>
+                </div></div>
+
+                <div class="pack-wrap" data-periodo="cretacico"><div class="pack cre" tabindex="0" role="img" aria-label="Sobre Cretácico" >
+                    <span class="badge">6+</span>
+                    <div class="icono">DINO<br>CARTAS<small>JUEGO DE CARTAS COLECCIONABLES</small></div>
+                    <div class="beast">🦖</div>
+                    <div class="era">CRETÁCICO</div>
+                    <div class="foot"><b>5</b> CARTAS DE JUEGO ADICIONALES</div>
+                </div></div>
+                
+                <div class="pack-wrap"  data-periodo="triasico"><div class="pack tri" tabindex="0" role="img" aria-label="Sobre Triásico">
+                    <span class="badge">6+</span>
+                    <div class="icono">DINO<br>CARTAS<small>JUEGO DE CARTAS COLECCIONABLES</small></div>
+                    <div class="beast">🦎</div>
+                    <div class="era">TRIÁSICO</div>
+                    <div class="foot"><b>5</b> CARTAS DE JUEGO ADICIONALES</div>
+                </div></div>
+                 </div>
+            </section>
+            <section class="caja subcuadros lateral">fsfsafsd</section>
+        </section>
+ 
+        <!-- Pie de página -->
+        <footer class="caja pie">Pie</footer>
+ 
+    </main>
+<div id="carta-revelada"></div>
+    <script src="js/datos.js"></script>
+    <script src="js/cartas.js"></script>
+    <script src="js/carrusel.js"></script>
+    <script src="js/filtros.js"></script>
+
+</body>
+</html>
+ 

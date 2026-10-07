@@ -1,0 +1,330 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+    background: #4a5228;
+    font-family: system-ui, sans-serif;
+    color: bisque;
+}
+
+.tarjeta {
+    width: 80%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 16px;
+    border: 2px solid #e8e2cc;
+    border-radius: 30px;
+    background: #5d6632;
+}
+.caja {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e0a63e;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* Cabecera */
+.cabecera {
+    display: grid;
+    grid-template-columns: 120px 1fr 120px;
+    gap: 12px;
+    padding: 8px;
+    border: 2px solid #e0a63e;
+    border-radius: 8px;
+}
+
+.titulo {
+    padding: 10px 12px;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: #f5c542;
+    text-shadow: 2px 2px 0 #b98a00, 5px 6px 10px rgba(0, 0, 0, 0.5);
+}
+
+.logo-icono {
+    border: none;
+    background: none;
+}
+
+.logo-icono svg {
+    width: 100%;
+    height: auto;
+}
+
+/* Banner */
+.banner {
+    min-height: 250px;
+}
+
+/* Tres columnas */
+.contenido {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr 1fr;
+    gap: 20px;
+    padding: 8px;
+
+}
+
+.subcuadros {
+    padding: 12px;
+}
+
+.central {
+    aspect-ratio: 1 / 1;
+    align-self: start;
+    min-height: 300px;
+    outline: 2px solid #e0a63e;
+    outline-offset: 6px;
+}
+
+/* Pie */
+.pie {
+    top: 20px;
+    min-height: 40px;
+}
+
+/* Móvil (siempre al final) */
+@media (max-width: 640px) {
+    .cabecera {
+        grid-template-columns: 70px 1fr 70px;
+    }
+
+    .titulo {
+        font-size: 2rem;
+    }
+
+    .contenido {
+        grid-template-columns: 1fr;
+    }
+
+    .lateral {
+        min-height: 160px;
+    }
+
+    .central {
+        aspect-ratio: auto;
+        min-height: 260px;
+    }
+}
+
+
+.titulo-sobre {
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: #f5c542;
+    text-shadow: 2px 2px 0 #b98a00, 5px 6px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin: 60px 0 20px;
+}
+.subtitulo-sobre {
+  margin: 15px 0 54px 0;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #f5e9b8;
+}
+.fondo {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  isolation: isolate;          
+}
+
+.fondo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: -1;                
+}
+.blanco{
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.blanco{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
+/*---------------------------lATERAL IZQUIERDO----------------------------------*/
+
+.caja.subcuadros.lateral.izq{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.panel-filtros{
+    top: 50px;
+}
+
+
+.caja.subcuadros.lateral.izq {
+    contain: size;       /* su contenido ya no influye en la altura de la fila */
+    min-height: 0;
+    overflow: hidden;
+}
+
+.scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-top: 16px;
+    padding-right: 6px;
+}
+          /* cambia por la clase real de la tarjeta */
+.lista-coleccion > * {
+    width: 100%;
+    max-width: 100%;
+}
+.card {
+    height: auto;
+    max-height: none;
+    flex-shrink: 0;
+}
+.lista-coleccion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+
+.scroll::-webkit-scrollbar { width: 6px; }
+.scroll::-webkit-scrollbar-thumb {
+    background: #f5a623;
+    border-radius: 3px;
+}
+
+
+
+
+
+/*----------------------------------Filtro-------------------------------------------*/
+
+.panel-filtros.oculto, .boton.oculto {
+    display: none;
+}
+
+.panel-filtros {
+    z-index: 10;
+    position: relative;
+    display: flex;  
+    flex-direction: column;
+    height: 65%;          /* ocupa la altura de la columna */
+    box-sizing: border-box;
+    padding: 14px;
+    color: #ffeebb;
+    background: rgba(0, 0, 0, 0.05);
+    border: 2px solid #e0a63e;
+}
+
+.filtros-titulo {
+    font-family: 'Arial Black', sans-serif;
+    color: #f5a623;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* Zona con scroll */
+.filtros-scroll {           
+    min-height: 0;         /* imprescindible para que el scroll funcione en flex */
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.filtro-grupo {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(245, 166, 35, 0.35);
+}
+
+.filtro-grupo h3 {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    color: #f5a623;
+}
+
+.filtro-grupo label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    cursor: pointer;
+}
+
+/* Tu regla * { width:100% } afecta a los checkbox, esto lo corrige */
+.filtro-grupo input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #f5a623;
+}
+
+.filtro-grupo input[type="text"] {
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid #f5a623;
+    border-radius: 8px;
+    background: #4a5a2b;
+    color: #fff;
+}
+
+.filtro-grupo input[type="range"] {
+    accent-color: #f5a623;
+}
+
+.btn-limpiar {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #ffc400;
+    color: #4E3B31;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Barra de scroll personalizada */
+.filtros-scroll::-webkit-scrollbar { width: 8px; }
+.filtros-scroll::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 8px; }
+.filtros-scroll::-webkit-scrollbar-thumb { background: #f5a623; border-radius: 8px; }
+.filtros-scroll { scrollbar-width: thin; scrollbar-color: #f5a623 rgba(0, 0, 0, 0.2); }
+
+
+
+.boton.filtro{
+    margin-top:10px;
+}
+
+.scroll {
+    overflow-x: hidden;
+}
+
+.central .pack-wrap { position: relative; z-index: 5; }
+
+.contenido {
+    grid-template-columns: 1.2fr 1.7fr 0.8fr;
+    gap: 20px;
+    padding: 8px;
+}
+
+.central {
+    aspect-ratio: auto;
+    align-self: start;
+    min-height: 300px;
+}
