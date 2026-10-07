@@ -83,6 +83,7 @@
 #grid {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 16px;
     padding: 0;
 }
@@ -96,13 +97,7 @@
 /* ---- Colección en el lateral izquierdo ---- */
 
 
-#grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    padding: 0;
-}
+
 
 #grid .card {
     width: 80%;
