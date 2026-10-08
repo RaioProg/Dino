@@ -74,9 +74,21 @@ function htmlCarta(d) {
       </div>
     </article>`;
 }
+function filtrar(lista) {
+    const texto = norm(document.getElementById('filtro-nombre').value.trim());
+    const periodos = [...document.querySelectorAll('input[name="periodo"]:checked')].map(c => c.value);
+    return lista.filter(d =>
+        (!texto || norm(d.nombre).includes(texto)) &&
+        (!periodos.length || periodos.includes(norm(d.periodo)))
+    );
+}
+
 function renderColeccion() {
-    listaColeccion.innerHTML = coleccion.map(htmlCarta).join('');
-    contador.textContent = coleccion.length;
+    const visibles = filtrar(coleccion);
+    listaColeccion.innerHTML = visibles.map(htmlCarta).join('');
+    contador.textContent = visibles.length === coleccion.length
+        ? coleccion.length
+        : `${visibles.length}/${coleccion.length}`;
 }
 
 async function pedir(opciones) {

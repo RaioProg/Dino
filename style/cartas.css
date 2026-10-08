@@ -53,8 +53,6 @@
   .card:hover { transform:translateY(-5px) rotate(-1deg); }
 }
 
-/* Contenedores */
-#grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(270px,1fr)); gap:26px 22px; justify-items:center; padding:20px; }
 
 .card .top {
     display: flex;

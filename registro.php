@@ -31,13 +31,11 @@ try {
         session_regenerate_id(true);
         $_SESSION['username'] = $usuario;
         header('Location: cartas.html');
-        die('Código: ' . $codigo);
     } else {
         header('Location: index.html?error=registro');
     }
 } catch (PDOException $e) {
     // por ejemplo, correo duplicado
     header('Location: index.html?error=registro');
-    die('Error: ' . $e->getMessage());
 }
 exit;

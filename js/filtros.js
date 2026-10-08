@@ -1,19 +1,19 @@
-const filtrosButton = document.getElementById('boton');
-const panelFiltros = document.getElementById('panel-filtros');
-const limpiarFiltrosButton = document.getElementById('aplicar-filtros');
+const btnFiltros = document.getElementById('boton');
+const panel = document.getElementById('panel-filtros');
 
-filtrosButton.addEventListener('click', () => {
-    if (panelFiltros.classList.contains('oculto')) {
-        panelFiltros.classList.remove('oculto');
-        filtrosButton.classList.add('oculto');
-    }
+btnFiltros.addEventListener('click', () => {
+    panel.classList.remove('oculto');
+    btnFiltros.classList.add('oculto');
 });
 
-limpiarFiltrosButton.addEventListener('click', () => {
-    const checkboxes = panelFiltros.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    panelFiltros.classList.add('oculto');
-    filtrosButton.classList.remove('oculto');
+document.getElementById('aplicar-filtros').addEventListener('click', () => {
+    renderColeccion();
+    panel.classList.add('oculto');
+    btnFiltros.classList.remove('oculto');
+});
+
+document.getElementById('limpiar-filtros').addEventListener('click', () => {
+    document.getElementById('filtro-nombre').value = '';
+    panel.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+    renderColeccion();
 });

@@ -14,7 +14,7 @@ body {
 }
 
 .tarjeta {
-    width: 90%;
+    width: 80%;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 30px;
@@ -71,7 +71,7 @@ body {
 
 .subcuadros {
     padding: 12px;
-    height: 700px;
+    height: 600px;
 }
 
 .central {
@@ -89,28 +89,7 @@ body {
 }
 
 /* Móvil (siempre al final) */
-@media (max-width: 640px) {
-    .cabecera {
-        grid-template-columns: 70px 1fr 70px;
-    }
 
-    .titulo {
-        font-size: 2rem;
-    }
-
-    .contenido {
-        grid-template-columns: 1fr;
-    }
-
-    .lateral {
-        min-height: 160px;
-    }
-
-    .central {
-        aspect-ratio: auto;
-        min-height: 260px;
-    }
-}
 
 
 .titulo-sobre {
@@ -145,13 +124,10 @@ body {
   z-index: -1;                
 }
 .blanco{
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-.blanco{
     background-color: transparent;
     border-color: transparent;
 }
+
 
 
 /*---------------------------lATERAL IZQUIERDO----------------------------------*/
@@ -162,17 +138,13 @@ body {
     gap: 12px;
     align-items: stretch;
     justify-content: flex-start;
+    contain: size;     
+    min-height: 0;
+    overflow: hidden;
 }
 
 .panel-filtros{
     top: 50px;
-}
-
-
-.caja.subcuadros.lateral.izq {
-    contain: size;       /* su contenido ya no influye en la altura de la fila */
-    min-height: 0;
-    overflow: hidden;
 }
 
 .scroll {
@@ -306,7 +278,8 @@ body {
 }
 
 .scroll {
-    overflow-x: hidden;
+    position: relative;
+    inset: 0;
 }
 
 .central .pack-wrap { position: relative; z-index: 5; }
@@ -326,93 +299,30 @@ body {
 
 
 .pie{
-    height: 14px;
+    heihgt: 140px;
 }
 
+@media (max-width: 640px) {
+    .cabecera {
+        grid-template-columns: 70px 1fr 70px;
+    }
 
-/*-------------------------------------------------LATERAL DERECHO-----------------------------------------------------*/
+    .titulo {
+        font-size: 2rem;
+    }
 
-.cuadro {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #e0a63e;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.15);
+    .contenido {
+        grid-template-columns: 1fr;
+    }
+
+    .lateral {
+        min-height: 160px;
+    }
+
+    .central {
+        aspect-ratio: auto;
+        min-height: 260px;
+    }
 }
 
-/* ---- Cartas reveladas: abanico vertical ---- */
-.carta-revelada-info {
-    --alto: 380px;      /* alto de cada carta (ajústalo si la ves cortada) */
-    --visible: 64px;    /* cuánto se ve de cada carta tapada */
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 8px 8px calc(var(--alto) * 0.1);
-}
-
-.carta-revelada-info .card {
-    position: relative;
-    width: 85%;
-    height: var(--alto);
-    max-height: none;
-    flex-shrink: 0;
-    margin-top: calc(var(--visible) - var(--alto));  /* solape */
-    transform: rotate(var(--rot, 0deg)) translateX(var(--dx, 0));
-    transform-origin: center top;
-    transition: transform .2s, z-index 0s;
-    animation: repartir .45s ease-out backwards;
-    cursor: pointer;
-}
-
-/* la primera no se solapa con nada por encima */
-.carta-revelada-info .card:first-child { margin-top: 0; }
-
-/* inclinación y desplazamiento alternos, como el abanico de la foto */
-.carta-revelada-info .card:nth-child(1) { --rot: -4deg; --dx: -6px; z-index: 1; animation-delay: 0s; }
-.carta-revelada-info .card:nth-child(2) { --rot: -2deg; --dx:  4px; z-index: 2; animation-delay: .12s; }
-.carta-revelada-info .card:nth-child(3) { --rot:  1deg; --dx: -4px; z-index: 3; animation-delay: .24s; }
-.carta-revelada-info .card:nth-child(4) { --rot:  3deg; --dx:  6px; z-index: 4; animation-delay: .36s; }
-.carta-revelada-info .card:nth-child(5) { --rot: -1deg; --dx:  0px; z-index: 5; animation-delay: .48s; }
-
-/* al pasar el ratón, la carta pasa al frente y se endereza */
-.carta-revelada-info .card:hover {
-    z-index: 10;
-    transform: rotate(0deg) translateX(0) scale(1.04);
-}
-
-/* compactar contenido para que quepa en el alto fijo */
-.carta-revelada-info .art { aspect-ratio: 16 / 10; }
-.carta-revelada-info .tag { display: none; }
-.carta-revelada-info .inner { overflow: hidden; }
-
-@keyframes repartir {
-    from { opacity: 0; transform: translateY(-30px) rotate(0deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .carta-revelada-info .card { animation: none; }
-}
-
-.carta-revelada-info {
-    transition: opacity .5s, transform .5s;
-}
-
-.carta-revelada-info.oculto {
-    opacity: 0;
-    display:flex;
-    transform: translateX(60px);
-    pointer-events: none;
-}
-
-.carta-revelada-info.oculto .card {
-    animation: recoger .5s ease-in forwards;
-}
-
-@keyframes recoger {
-    to { opacity: 0; transform: translateX(80px) rotate(12deg) scale(.85); }
-}
+@media (width:900px){.tarjeta{width:100%}}

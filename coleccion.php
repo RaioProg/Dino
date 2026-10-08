@@ -95,5 +95,5 @@ try {
         $pdo->rollBack();
     }
     http_response_code(500);
-    echo json_encode(['error' => 'Error en la base de datos', 'detalle' => $e->getMessage()]);
+    echo json_encode(['error' => 'Error en la base de datos']);
 }
