@@ -50,33 +50,38 @@ function renderColeccion() {
     contador.textContent = coleccion.length;
 }
 
-function agregarCartas(cartas) {
-    coleccion.push(...cartas);
-    localStorage.setItem('coleccion', JSON.stringify(coleccion));
-    renderColeccion();
-    contenedorScroll.scrollTop = contenedorScroll.scrollHeight;
+async function pedir(opciones) {
+    const res = await fetch('coleccion.php', opciones);
+    if (res.status === 401) { location.href = 'index.html'; return null; }
+    if (!res.ok) return null;
+    return res.json();
 }
 
-function abrirSobre(periodo) {
-    const pool = catalogo.filter(c => norm(c.periodo) === norm(periodo));
-    if (pool.length === 0) return;
+async function cargarColeccion() {
+    const data = await pedir();
+    if (!data) return;
+    coleccion = data.coleccion;
+    const nombre = document.getElementById('nombre-usuario');
+    if (nombre) nombre.textContent = data.usuario;
+    renderColeccion();
+}
 
-    const mezcla = [...pool];
-    for (let i = mezcla.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [mezcla[i], mezcla[j]] = [mezcla[j], mezcla[i]];
-    }
-    const sacadas = mezcla.slice(0, CARTAS_POR_SOBRE);
+async function abrirSobre(periodo) {
+    const data = await pedir({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ periodo })
+    });
+    if (!data) return;
+
+    coleccion = data.coleccion;
     const revelado = document.getElementById('carta-revelada-info');
 
-    // cancelar timers anteriores y volver a mostrar el contenedor
     clearTimeout(temporizadorReveladas);
     clearTimeout(temporizadorLimpieza);
     revelado.classList.remove('oculto');
+    revelado.innerHTML = data.sacadas.map(htmlCarta).join('');
 
-    revelado.innerHTML = sacadas.map(htmlCarta).join('');
-
-    // a los 5 s: animación de salida; a los 0,6 s más: vaciar
     temporizadorReveladas = setTimeout(() => {
         revelado.classList.add('oculto');
         temporizadorLimpieza = setTimeout(() => {
@@ -85,25 +90,14 @@ function abrirSobre(periodo) {
         }, 600);
     }, 5000);
 
-    agregarCartas(sacadas);
+    renderColeccion();
+    contenedorScroll.scrollTop = contenedorScroll.scrollHeight;
 }
 
-async function iniciar() {
-    renderColeccion();
-
+function iniciar() {
     document.querySelector('.central').addEventListener('click', e => {
         const pack = e.target.closest('.pack-wrap');
-        if (!pack) return;
-        console.log('Sobre:', pack.dataset.periodo, '| cartas en catálogo:', catalogo.length);
-        abrirSobre(pack.dataset.periodo);
+        if (pack) abrirSobre(pack.dataset.periodo);
     });
-
-    try {
-        await cargarCatalogo();
-    } catch (e) {
-        console.error('No se pudo cargar dinos.php:', e);
-    }
+    cargarColeccion();
 }
-
-document.addEventListener('DOMContentLoaded', iniciar);
-

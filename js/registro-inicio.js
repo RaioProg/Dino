@@ -36,3 +36,10 @@ formRegistro.addEventListener("submit", function (event) {
     labelNoCoinciden.classList.add("oculto"); // oculta el error si ya coinciden
   }
 });
+
+const params = new URLSearchParams(location.search);
+if (params.get('error') === 'login') alert('Usuario o contraseña incorrectos');
+if (params.get('error') === 'registro') {
+  mostrarRegistro();
+  alert('No se pudo crear la cuenta (el usuario ya existe o faltan datos)');
+}

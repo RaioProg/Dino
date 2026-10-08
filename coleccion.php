@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store');
 session_start();
 
 // Solo usuarios con sesión iniciada
