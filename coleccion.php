@@ -13,7 +13,6 @@ require 'conexion.php';
 $usuario = $_SESSION['username'];
 
 const CARTAS_POR_SOBRE = 5;
-const ESPEREA_SEGUNDOS = 30; // 24 h (pon 30 para probar)
 
 function norm($s) {
     return strtr(mb_strtolower((string)$s, 'UTF-8'),
@@ -35,8 +34,6 @@ function coleccionDe(PDO $pdo, $usuario) {
     return $filas;
 }
 
-const ESPERA_SEGUNDOS = 86400; // 24 h (pon 30 para probar)
-
 function segundosRestantes(PDO $pdo, $usuario) {
     $stmt = $pdo->prepare(
         'SELECT COALESCE(GREATEST(0, ? - TIMESTAMPDIFF(SECOND, ultimo_sobre, NOW())), 0) AS r
@@ -45,6 +42,8 @@ function segundosRestantes(PDO $pdo, $usuario) {
     $stmt->execute([ESPERA_SEGUNDOS, $usuario]);
     return (int)$stmt->fetchColumn();
 }
+
+const ESPERA_SEGUNDOS = 30;
 
 try {
     $sacadas = [];

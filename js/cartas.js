@@ -74,7 +74,6 @@ function htmlCarta(d) {
       </div>
     </article>`;
 }
-iniciarContador(data.restante);
 function renderColeccion() {
     listaColeccion.innerHTML = coleccion.map(htmlCarta).join('');
     contador.textContent = coleccion.length;
