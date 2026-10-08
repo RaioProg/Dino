@@ -1,11 +1,41 @@
+let coleccion = [];
 const listaColeccion = document.getElementById('grid');
 const contenedorScroll = document.querySelector('.scroll');
 const contador = document.getElementById('contador-cartas');
 
-const CARTAS_POR_SOBRE = 5;
 let temporizadorReveladas = null;
 let temporizadorLimpieza = null;
-let coleccion = JSON.parse(localStorage.getItem('coleccion')) || [];
+
+let restante = 0;
+let intervaloContador = null;
+
+function pintarContador() {
+    const el = document.getElementById('contador-sobre');
+    const central = document.querySelector('.central');
+    if (restante > 0) {
+        const h = String(Math.floor(restante / 3600)).padStart(2, '0');
+        const m = String(Math.floor(restante % 3600 / 60)).padStart(2, '0');
+        const s = String(restante % 60).padStart(2, '0');
+        el.textContent = `⏳ Próximo sobre en ${h}:${m}:${s}`;
+        central.classList.add('bloqueado');
+    } else {
+        el.textContent = '✅ ¡Sobre disponible!';
+        central.classList.remove('bloqueado');
+    }
+}
+
+function iniciarContador(segundos) {
+    clearInterval(intervaloContador);
+    restante = segundos || 0;
+    pintarContador();
+    if (restante > 0) {
+        intervaloContador = setInterval(() => {
+            restante--;
+            if (restante <= 0) clearInterval(intervaloContador);
+            pintarContador();
+        }, 1000);
+    }
+}
 
 const norm = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => (
@@ -44,7 +74,7 @@ function htmlCarta(d) {
       </div>
     </article>`;
 }
-
+iniciarContador(data.restante);
 function renderColeccion() {
     listaColeccion.innerHTML = coleccion.map(htmlCarta).join('');
     contador.textContent = coleccion.length;
@@ -53,7 +83,7 @@ function renderColeccion() {
 async function pedir(opciones) {
     const res = await fetch('coleccion.php', opciones);
     if (res.status === 401) { location.href = 'index.html'; return null; }
-    if (!res.ok) return null;
+    if (!res.ok && res.status !== 429) return null; 
     return res.json();
 }
 
@@ -63,16 +93,21 @@ async function cargarColeccion() {
     coleccion = data.coleccion;
     const nombre = document.getElementById('nombre-usuario');
     if (nombre) nombre.textContent = data.usuario;
+    iniciarContador(data.restante);
     renderColeccion();
 }
 
 async function abrirSobre(periodo) {
+    if (restante > 0) return;
+
     const data = await pedir({
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ periodo })
     });
     if (!data) return;
+    if (data.error) { iniciarContador(data.restante); return; }
+    iniciarContador(data.restante);
 
     coleccion = data.coleccion;
     const revelado = document.getElementById('carta-revelada-info');
@@ -101,3 +136,5 @@ function iniciar() {
     });
     cargarColeccion();
 }
+
+document.addEventListener('DOMContentLoaded', iniciar);

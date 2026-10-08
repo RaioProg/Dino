@@ -1,6 +1,3 @@
-// Este archivo solo cambia entre el formulario de login y el de registro.
-// Los datos se envían y se comprueban en PHP.
-
 const btnLogin = document.getElementById("btn-login");
 const btnRegistro = document.getElementById("btn-registro");
 const formLogin = document.getElementById("form-login");
@@ -23,23 +20,24 @@ function mostrarRegistro() {
 btnLogin.addEventListener("click", mostrarLogin);
 btnRegistro.addEventListener("click", mostrarRegistro);
 
-
 formRegistro.addEventListener("submit", function (event) {
   const password = document.getElementById("registro-password").value;
   const passwordRepetida = document.getElementById("registro-repetir").value;
   const labelNoCoinciden = document.getElementById("label-no-coinciden");
 
   if (password !== passwordRepetida) {
-    event.preventDefault(); // evita que se envíe
-    labelNoCoinciden.classList.remove("oculto"); // muestra el error
+    event.preventDefault();
+    labelNoCoinciden.classList.remove("oculto");
   } else {
-    labelNoCoinciden.classList.add("oculto"); // oculta el error si ya coinciden
+    labelNoCoinciden.classList.add("oculto");
   }
 });
 
 const params = new URLSearchParams(location.search);
-if (params.get('error') === 'login') alert('Usuario o contraseña incorrectos');
-if (params.get('error') === 'registro') {
+if (params.get("error") === "login") {
+  alert("Usuario o contraseña incorrectos");
+}
+if (params.get("error") === "registro") {
   mostrarRegistro();
-  alert('No se pudo crear la cuenta (el usuario ya existe o faltan datos)');
+  alert("No se pudo crear la cuenta (usuario o correo ya existen, o datos no válidos)");
 }

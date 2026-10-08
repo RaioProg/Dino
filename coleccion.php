@@ -3,7 +3,6 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 session_start();
 
-// Solo usuarios con sesión iniciada
 if (empty($_SESSION['username'])) {
     http_response_code(401);
     echo json_encode(['error' => 'No has iniciado sesión']);
@@ -14,8 +13,8 @@ require 'conexion.php';
 $usuario = $_SESSION['username'];
 
 const CARTAS_POR_SOBRE = 5;
+const ESPEREA_SEGUNDOS = 30; // 24 h (pon 30 para probar)
 
-// "Jurásico" -> "jurasico"
 function norm($s) {
     return strtr(mb_strtolower((string)$s, 'UTF-8'),
         ['á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u']);
@@ -36,13 +35,28 @@ function coleccionDe(PDO $pdo, $usuario) {
     return $filas;
 }
 
+const ESPERA_SEGUNDOS = 86400; // 24 h (pon 30 para probar)
+
+function segundosRestantes(PDO $pdo, $usuario) {
+    $stmt = $pdo->prepare(
+        'SELECT COALESCE(GREATEST(0, ? - TIMESTAMPDIFF(SECOND, ultimo_sobre, NOW())), 0) AS r
+         FROM usuarios WHERE username = ?'
+    );
+    $stmt->execute([ESPERA_SEGUNDOS, $usuario]);
+    return (int)$stmt->fetchColumn();
+}
+
 try {
     $sacadas = [];
 
-    // POST con "periodo": abrir un sobre
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $periodo = norm($_POST['periodo'] ?? '');
-
+        $restante = segundosRestantes($pdo, $usuario);
+    if ($restante > 0) {
+        http_response_code(429);
+        echo json_encode(['error' => 'Aún no puedes abrir otro sobre', 'restante' => $restante]);
+        exit;
+    }
         $pool = array_values(array_filter(
             catalogo($pdo),
             fn($d) => norm($d['periodo']) === $periodo
@@ -58,26 +72,29 @@ try {
         $sacadas = array_slice($pool, 0, CARTAS_POR_SOBRE);
 
         $pdo->beginTransaction();
-        $ins = $pdo->prepare('INSERT INTO colecciones (usuario_id, dinosaurio_id) 
-        SELECT u.id, d.id FROM usuarios u, dinosaurios d WHERE u.username = ? AND d.nombre = ?'
-);
+        $ins = $pdo->prepare(
+            'INSERT INTO colecciones (usuario_id, dinosaurio_id)
+             SELECT u.id, d.id FROM usuarios u, dinosaurios d
+             WHERE u.username = ? AND d.nombre = ?'
+        );
         foreach ($sacadas as $d) {
             $ins->execute([$usuario, $d['nombre']]);
         }
+        $pdo->prepare('UPDATE usuarios SET ultimo_sobre = NOW() WHERE username = ?')->execute([$usuario]);
         $pdo->commit();
     }
 
-    // GET (o tras abrir un sobre): devolver la colección actualizada
     echo json_encode([
         'usuario'   => $usuario,
         'sacadas'   => $sacadas,
         'coleccion' => coleccionDe($pdo, $usuario),
+        'restante'  => segundosRestantes($pdo, $usuario),
     ], JSON_NUMERIC_CHECK);
 
 } catch (PDOException $e) {
-    if ($pdo->inTransaction()) {
+    if (isset($pdo) && $pdo->inTransaction()) {
         $pdo->rollBack();
     }
     http_response_code(500);
-    echo json_encode(['error' => 'Error en la base de datos']);
+    echo json_encode(['error' => 'Error en la base de datos', 'detalle' => $e->getMessage()]);
 }

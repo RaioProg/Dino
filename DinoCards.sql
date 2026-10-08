@@ -1,6 +1,4 @@
-
 create database if not exists dinocards;
-
 use dinocards;
 
 drop table if exists colecciones;
@@ -8,15 +6,36 @@ drop table if exists usuarios;
 drop table if exists dinosaurios;
 
 create table usuarios(
-id int primary key auto_increment,
-username varchar(64) unique,
-email varchar(255) unique,
-password_hash varchar(1024),
-fecha_obtencion datetime,
-ultima_obtencion date
+  id int primary key auto_increment,
+  username varchar(64) not null unique,
+  email varchar(255) not null unique,
+  password_hash varchar(255) not null,
+  ultimo_sobre datetime null
+);
+
+create table dinosaurios(
+  id int primary key auto_increment,
+  nombre varchar(255) unique,
+  especie varchar(255),
+  periodo varchar(50),
+  imagen_url varchar(1024),
+  altura decimal(4,2),
+  largo decimal(4,2),
+  peso decimal(6,2),
+  hp int, vigor int, ataque int, defensa int, agilidad int
+);
+
+create table colecciones(
+  id int primary key auto_increment,
+  usuario_id int not null,
+  dinosaurio_id int not null,
+  fecha_adquisicion datetime default current_timestamp,
+  foreign key (usuario_id) references usuarios(id),
+  foreign key (dinosaurio_id) references dinosaurios(id)
 );
 
 delimiter $$
+
 drop procedure if exists Registro2$$
 create procedure Registro2(in _username varchar(64), in _email varchar(255), in _password_hash varchar(255), out eror int)
 begin
@@ -28,24 +47,7 @@ begin
     set eror = 0;
   end if;
 end$$
-delimiter;
 
-delimiter $$
-drop procedure if exists login2$$
-create procedure login2(in _username varchar(30), in _password_hash varchar(30), out eror int)
-begin
-declare coincidencias int default 0;
-	select count(*) into coincidencias from staff where username = _username and password = _password_hash;
-
-    if coincidencias > 0 then
-        set eror = 0;   
-    else
-        set eror = -1;  
-    end if;
-end$$
-delimiter ;
-
-delimiter $$
 drop procedure if exists ObtenerDinosaurios$$
 create procedure ObtenerDinosaurios()
 begin
@@ -53,9 +55,7 @@ begin
          altura, largo, peso, hp, vigor, ataque, defensa, agilidad
   from dinosaurios;
 end$$
-delimiter ;
 
-delimiter $$
 drop procedure if exists ObtenerColeccion$$
 create procedure ObtenerColeccion(in p_username varchar(64))
 begin
@@ -67,35 +67,8 @@ begin
   where u.username = p_username
   order by c.id;
 end$$
+
 delimiter ;
-
-create table dinosaurios(
-id int primary key auto_increment,
-nombre varchar(1024),
-especie varchar(1024),
-periodo varchar(1024),
-imagen_url varchar(1024),
-altura decimal(4,2),
-largo decimal(4,2),
-peso decimal(6,2),
-hp int,
-vigor int,
-ataque int,
-defensa int,
-agilidad int
-);
-
-
-create table colecciones(
-id int primary key auto_increment,
-usuario_id int,
-dinosaurio_id int,
-fecha_adquisicion datetime,
-foreign key (usuario_id) references usuarios(id),
-foreign key (dinosaurio_id) references dinosaurios(id)
-);
-
-
 INSERT INTO dinosaurios (nombre, especie, periodo, imagen_url, altura, largo, peso, hp, vigor, ataque, defensa, agilidad) VALUES
 ('Tyrannosaurus', 'Tyrannosaurus rex', 'cretacico', 'https://example.com/dinosaurios/tyrannosaurus.jpg', 3.66, 12.30, 8.40, 950, 80, 98, 70, 55),
 ('Allosaurus', 'Allosaurus fragilis', 'jurasico', 'https://example.com/dinosaurios/allosaurus.jpg', 4.00, 8.50, 2.30, 700, 78, 88, 55, 68),

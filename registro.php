@@ -1,65 +1,43 @@
-
 <?php
 session_start();
-// 1. Forzar la visualización de todos los errores de PHP en pantalla
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require 'conexion.php';
 
-$host = '127.0.0.1';
-$port = 3306;
-$database = 'dinocards';
-$username = 'VictorBD';
-$password = 'miguelinnieto23';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: index.html');
+    exit;
+}
 
-$error = '';
-$status = '';
+$usuario    = trim($_POST['username'] ?? '');
+$email      = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$contrasena = $_POST['password'] ?? '';
+$repetida   = $_POST['password_repetida'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $email      = $_POST['email'] ?? '';
-    $usuario    = $_POST['username'] ?? '';
-    $contrasena = $_POST['password'] ?? '';
-
-    $emailLimpio    = filter_var($email, FILTER_SANITIZE_EMAIL);
-    $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
-
-    try {
-        $pdo = new PDO("mysql:host=$host;port=$port;dbname=$database;charset=utf8", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
-        echo "<p>Conectado a la base de datos...</p>";
-
-        $stmt = $pdo->prepare("CALL Registro2(?, ?, ?, @eror)");
-        $stmt->execute([
-            $usuario,
-            $emailLimpio,
-            $contrasenaHash,
-   
-        ]);
-        $stmt->closeCursor(); // Importante para liberar el cursor del procedimiento
-
-        // Obtener el valor de salida de MySQL
-        $res = $pdo->query("SELECT @eror AS eror")->fetch(PDO::FETCH_ASSOC);
-        
-        // Evitamos error de índice no definido si @eror viene nulo
-        $codigoError = isset($res['eror']) ? (int)$res['eror'] : -999;
-
-        if ($codigoError === 0) {
-    session_regenerate_id(true);
-    $_SESSION['username'] = $usuario;
-    header('Location: cartas.html');
-} else {
+if ($contrasena !== $repetida || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     header('Location: index.html?error=registro');
+    exit;
+}
+
+try {
+    $hash = password_hash($contrasena, PASSWORD_DEFAULT);
+
+    $stmt = $pdo->prepare('CALL Registro2(?, ?, ?, @eror)');
+    $stmt->execute([$usuario, $email, $hash]);
+    $stmt->closeCursor();
+
+    $res = $pdo->query('SELECT @eror AS eror')->fetch();
+    $codigo = isset($res['eror']) ? (int)$res['eror'] : -999;
+
+    if ($codigo === 0) {
+        session_regenerate_id(true);
+        $_SESSION['username'] = $usuario;
+        header('Location: cartas.html');
+        die('Código: ' . $codigo);
+    } else {
+        header('Location: index.html?error=registro');
+    }
+} catch (PDOException $e) {
+    // por ejemplo, correo duplicado
+    header('Location: index.html?error=registro');
+    die('Error: ' . $e->getMessage());
 }
 exit;
-
-    } catch (PDOException $e) {
-        $status = "error";
-        echo "<p style='color:red; font-weight:bold;'>Error de MySQL / PDO: " . $e->getMessage() . "</p>";
-    }
-} else {
-    echo "<p>Acceso denegado: Envía el formulario desde la página principal.</p>";
-}
-
-?>

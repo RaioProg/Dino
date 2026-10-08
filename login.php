@@ -2,7 +2,10 @@
 session_start();
 require 'conexion.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') { header('Location: index.html'); exit; }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: index.html');
+    exit;
+}
 
 $login = trim($_POST['email'] ?? '');
 $pass  = $_POST['password'] ?? '';
