@@ -43,7 +43,7 @@ function segundosRestantes(PDO $pdo, $usuario) {
     return (int)$stmt->fetchColumn();
 }
 
-const ESPERA_SEGUNDOS = 30;
+const ESPERA_SEGUNDOS = 86400;
 
 try {
     $sacadas = [];

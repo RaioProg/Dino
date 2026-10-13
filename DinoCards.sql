@@ -70,12 +70,12 @@ end$$
 
 delimiter ;
 INSERT INTO dinosaurios (nombre, especie, periodo, imagen_url, altura, largo, peso, hp, vigor, ataque, defensa, agilidad) VALUES
-('Tyrannosaurus', 'Tyrannosaurus rex', 'cretacico', 'https://example.com/dinosaurios/tyrannosaurus.jpg', 3.66, 12.30, 8.40, 950, 80, 98, 70, 55),
-('Allosaurus', 'Allosaurus fragilis', 'jurasico', 'https://example.com/dinosaurios/allosaurus.jpg', 4.00, 8.50, 2.30, 700, 78, 88, 55, 68),
-('Spinosaurus', 'Spinosaurus aegyptiacus', 'cretacico', 'https://example.com/dinosaurios/spinosaurus.jpg', 7.00, 14.00, 7.40, 900, 82, 95, 65, 50),
-('Velociraptor', 'Velociraptor mongoliensis', 'cretacico', 'https://example.com/dinosaurios/velociraptor.jpg', 0.50, 2.00, 0.02, 120, 90, 65, 25, 95),
-('Giganotosaurus', 'Giganotosaurus carolinii', 'cretacico', 'https://example.com/dinosaurios/giganotosaurus.jpg', 4.00, 12.00, 8.00, 920, 75, 96, 68, 52),
-('Carnotaurus', 'Carnotaurus sastrei', 'cretacico', 'https://example.com/dinosaurios/carnotaurus.jpg', 2.80, 8.00, 1.50, 640, 85, 82, 50, 80),
+('Tyrannosaurus', 'Tyrannosaurus rex', 'cretacico', 'https://i.insider.com/647108733be3b50019f7121b?width=1136&format=jpeg', 3.66, 12.30, 8.40, 950, 80, 98, 70, 55),
+('Allosaurus', 'Allosaurus fragilis', 'jurasico', 'https://preview.redd.it/allosaurus-fragilis-vs-allosaurus-jimmadseni-v0-7azrfhrxap6c1.jpg?width=1080&crop=smart&auto=webp&s=338151e0a56d9745f39acee5678986ac59943d9e', 4.00, 8.50, 2.30, 700, 78, 88, 55, 68),
+('Spinosaurus', 'Spinosaurus aegyptiacus', 'cretacico', 'https://cdnb.artstation.com/p/assets/images/images/033/284/399/large/fabrizio-lavezzi-spinosaurus-dicembre-2020b.jpg?1609071863', 7.00, 14.00, 7.40, 900, 82, 95, 65, 50),
+('Velociraptor', 'Velociraptor mongoliensis', 'cretacico', 'https://us.v-cdn.net/5020761/uploads/editor/rf/d8afd8l53pky.jpg', 0.50, 2.00, 0.02, 120, 90, 65, 25, 95),
+('Giganotosaurus', 'Giganotosaurus carolinii', 'cretacico', 'https://cdn.meredithplays.com/wp-content/uploads/2025/03/Giganotosaurus_Carolinii.png', 4.00, 12.00, 8.00, 920, 75, 96, 68, 52),
+('Carnotaurus', 'Carnotaurus sastrei', 'cretacico', 'https://paleontologyworld.com/sites/default/files/Carnotaurus_2017.png', 2.80, 8.00, 1.50, 640, 85, 82, 50, 80),
 ('Utahraptor', 'Utahraptor ostrommaysorum', 'cretacico', 'https://example.com/dinosaurios/utahraptor.jpg', 1.80, 6.00, 0.50, 400, 88, 85, 45, 85),
 ('Deinonychus', 'Deinonychus antirrhopus', 'cretacico', 'https://example.com/dinosaurios/deinonychus.jpg', 1.00, 3.40, 0.07, 220, 90, 72, 30, 92),
 ('Dilophosaurus', 'Dilophosaurus wetherilli', 'jurasico', 'https://example.com/dinosaurios/dilophosaurus.jpg', 2.40, 7.00, 0.40, 380, 70, 68, 35, 75),
