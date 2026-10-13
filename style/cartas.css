@@ -183,3 +183,71 @@
     filter: grayscale(0.8);
     pointer-events: none;
 }
+
+/* ---- Cartas reveladas: abanico vertical ---- */
+.carta-revelada-info {
+    --alto: 380px;      /* alto de cada carta */
+    --visible: 64px;    /* cuánto se ve de cada carta tapada */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 8px 8px 40px;
+    transition: opacity .5s, transform .5s;
+}
+
+.carta-revelada-info .card {
+    position: relative;
+    width: 85%;
+    height: var(--alto);
+    max-height: none;
+    flex-shrink: 0;
+    margin-top: calc(var(--visible) - var(--alto));  /* solape */
+    transform: rotate(var(--rot, 0deg)) translateX(var(--dx, 0));
+    transform-origin: center top;
+    transition: transform .2s;
+    animation: repartir .45s ease-out backwards;
+    cursor: pointer;
+}
+
+.carta-revelada-info .card:first-child { margin-top: 0; }
+
+.carta-revelada-info .card:nth-child(1) { --rot: -4deg; --dx: -6px; z-index: 1; animation-delay: 0s; }
+.carta-revelada-info .card:nth-child(2) { --rot: -2deg; --dx:  4px; z-index: 2; animation-delay: .12s; }
+.carta-revelada-info .card:nth-child(3) { --rot:  1deg; --dx: -4px; z-index: 3; animation-delay: .24s; }
+.carta-revelada-info .card:nth-child(4) { --rot:  3deg; --dx:  6px; z-index: 4; animation-delay: .36s; }
+.carta-revelada-info .card:nth-child(5) { --rot: -1deg; --dx:  0px; z-index: 5; animation-delay: .48s; }
+
+.carta-revelada-info .card:hover {
+    z-index: 10;
+    transform: rotate(0deg) translateX(0) scale(1.04);
+}
+
+.carta-revelada-info .art { aspect-ratio: 16 / 10; }
+.carta-revelada-info .tag { display: none; }
+.carta-revelada-info .inner { overflow: hidden; }
+
+@keyframes repartir {
+    from { opacity: 0; transform: translateY(-30px) rotate(0deg); }
+}
+
+/* ---- Salida: la clase "oculto" desliza y desvanece el abanico ---- */
+.carta-revelada-info.oculto {
+    display: flex;          /* anula cualquier .oculto { display:none } */
+    opacity: 0;
+    transform: translateX(60px);
+    pointer-events: none;
+}
+
+/* ---- La columna derecha debe dejar ver el abanico ---- */
+.caja.subcuadros.lateral .cuadro {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carta-revelada-info .card { animation: none; }
+    .carta-revelada-info { transition: none; }
+}

@@ -75,7 +75,7 @@ body {
 }
 
 .central {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: auto;
     align-self: start;
     min-height: 300px;
     outline: 2px solid #e0a63e;
@@ -285,21 +285,15 @@ body {
 .central .pack-wrap { position: relative; z-index: 5; }
 
 .contenido {
-    grid-template-columns: 1.0fr 1.7fr 0.8fr;
+    grid-template-columns: 1.0fr 1.7fr 1.0fr;
     gap: 20px;
     padding: 8px;
     display: grid;
 }
 
-.central {
-    aspect-ratio: auto;
-    align-self: start;
-    min-height: 300px;
-}
-
 
 .pie{
-    heihgt: 140px;
+    height: 140px;
 }
 
 @media (max-width: 640px) {
@@ -326,3 +320,8 @@ body {
 }
 
 @media (width:900px){.tarjeta{width:100%}}
+
+.cuadro{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
