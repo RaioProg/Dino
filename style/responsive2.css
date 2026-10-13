@@ -1,0 +1,78 @@
+/* =====================================================
+   RESPONSIVE para cartas.html
+   Cárgalo el ÚLTIMO (después de cartas.css)
+   ===================================================== */
+
+img, svg { max-width: 100%; }
+
+/* ---------- Sobres: todo escala con el ancho del propio sobre ----------
+   .pack-wrap pasa a ser un "contenedor" y los textos usan cqw
+   (1cqw = 1% del ancho del sobre), así nunca se salen aunque el sobre sea pequeño. */
+.pack-wrap { container-type: inline-size; }
+
+.pack .badge { font-size: 6.5cqw; padding: 1cqw 6cqw 1cqw 8cqw; }
+.pack .icono { font-size: 17cqw; -webkit-text-stroke: 2.5cqw #1a2a8c; text-shadow: 0 2cqw 0 #0c1450; }
+.pack .icono small { font-size: 5.5cqw; -webkit-text-stroke: 1.5cqw #7a0f10; margin-top: 3cqw; }
+.pack .beast { font-size: 55cqw; }
+.pack .era { font-size: 11cqw; border-width: 1.5cqw; padding: 3cqw 2cqw 2cqw; }
+.pack .foot { font-size: 5cqw; gap: 3cqw; }
+.pack .foot b { width: 11cqw; height: 11cqw; font-size: 6cqw; margin-left: 2cqw; }
+
+/* ---------- Tablet y móvil grande (≤ 1000px): una sola columna ---------- */
+@media (max-width: 1000px) {
+    body { padding: 16px 0; }
+
+    .tarjeta { width: 94%; gap: 20px; padding: 12px; border-radius: 22px; }
+
+    .contenido { grid-template-columns: 1fr; gap: 20px; padding: 0; }
+
+    /* Orden: sobres → cartas reveladas → colección */
+    .contenido > .central { order: 1; }
+    .contenido > .lateral:not(.izq) { order: 2; }
+    .contenido > .lateral.izq { order: 3; }
+
+    .subcuadros { height: auto; min-height: 0; }
+    .caja.subcuadros.lateral.izq { height: 560px; }   /* la colección tiene su propio scroll */
+    .central { min-height: 0; padding-bottom: 24px; outline-offset: 4px; }
+
+    /* Cartas reveladas: en rejilla, no en columna infinita */
+    .cuadro { width: 100%; }
+    .carta-revelada-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        width: 100%;
+    }
+    .carta-revelada-info .card { height: auto; max-height: none; }
+
+    .titulo-sobre { font-size: 1.7rem; margin: 24px 12px 12px; }
+    .subtitulo-sobre { margin: 0 12px 24px; font-size: 1rem; }
+}
+
+/* ---------- Móvil (≤ 700px) ---------- */
+@media (max-width: 700px) {
+    .cabecera { grid-template-columns: 64px 1fr auto; gap: 8px; }
+    .titulo { font-size: 2rem; padding: 6px; }
+    .inicio-de-sesión { gap: 6px; }
+    #nombre-usuario { max-width: 110px; font-size: 0.8rem; }
+    .logout { padding: 5px 10px; font-size: 0.8rem; }
+
+    .banner, .carrusel { min-height: 300px; }
+    .diapositiva { padding: 16px 52px 44px; }
+    .texto { max-width: none; }
+
+    .central .blanco { gap: 8px; padding: 0 8px; }
+    .caja.subcuadros.lateral.izq { height: 480px; }
+}
+
+/* ---------- Móvil pequeño (≤ 420px) ---------- */
+@media (max-width: 420px) {
+    .tarjeta { width: 98%; padding: 8px; }
+    .cabecera { grid-template-columns: 52px 1fr auto; }
+    .titulo { font-size: 1.5rem; }
+    #nombre-usuario { max-width: 80px; }
+    .flecha { width: 32px; height: 32px; font-size: 1.3rem; }
+    .diapositiva { padding: 14px 44px 44px; }
+    .titulo-sobre { font-size: 1.4rem; }
+    .carta-revelada-info { grid-template-columns: 1fr; }
+}

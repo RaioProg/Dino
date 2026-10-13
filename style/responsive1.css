@@ -1,0 +1,24 @@
+/* =====================================================
+   RESPONSIVE para index.html (login / registro)
+   Cárgalo DESPUÉS de style.css
+   ===================================================== */
+
+/* En vez de 35% fijo: ancho flexible con tope */
+.tarjeta {
+  width: min(100%, 520px);
+}
+
+@media (max-width: 480px) {
+  body { padding: 12px; }
+
+  .tarjeta {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+
+  .titulo { font-size: 2.3rem; }
+  .subtitulo { font-size: 0.95rem; }
+
+  .pestana { font-size: 0.9rem; padding: 10px 6px; }
+  .boton { font-size: 1rem; }
+}
