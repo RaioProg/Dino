@@ -48,24 +48,19 @@ begin
   end if;
 end$$
 
-drop procedure if exists ObtenerDinosaurios$$
-create procedure ObtenerDinosaurios()
-begin
-  select nombre, especie, periodo, imagen_url as imagenUrl,
-         altura, largo, peso, hp, vigor, ataque, defensa, agilidad
-  from dinosaurios;
-end$$
-
+delimiter $$
 drop procedure if exists ObtenerColeccion$$
 create procedure ObtenerColeccion(in p_username varchar(64))
 begin
   select d.nombre, d.especie, d.periodo, d.imagen_url as imagenUrl,
-         d.altura, d.largo, d.peso, d.hp, d.vigor, d.ataque, d.defensa, d.agilidad
+         d.altura, d.largo, d.peso, d.hp, d.vigor, d.ataque, d.defensa, d.agilidad,
+         count(*) as copias
   from colecciones c
   join usuarios u on u.id = c.usuario_id
   join dinosaurios d on d.id = c.dinosaurio_id
   where u.username = p_username
-  order by c.id;
+  group by d.id
+  order by min(c.id);
 end$$
 
 delimiter ;
@@ -81,20 +76,20 @@ INSERT INTO dinosaurios (nombre, especie, periodo, imagen_url, altura, largo, pe
 ('Dilophosaurus', 'Dilophosaurus wetherilli', 'jurasico', 'https://cdn.sci.news/images/enlarge7/image_8620_1e-Dilophosaurus-wetherilli.jpg', 2.40, 7.00, 0.40, 380, 70, 68, 35, 75),
 ('Ceratosaurus', 'Ceratosaurus nasicornis', 'jurasico', 'https://cdnb.artstation.com/p/assets/images/images/062/007/825/large/victor-westdijk-run.jpg?1682114992', 3.00, 6.00, 0.60, 450, 72, 74, 42, 72),
 ('Carcharodontosaurus', 'Carcharodontosaurus saharicus', 'cretacico', 'https://tse2.mm.bing.net/th/id/OIP.L48r_sqslAIyl9Cs3AvlfQHaE0?r=0&rs=1&pid=ImgDetMain&o=7&rm=3', 4.00, 12.00, 6.20, 880, 74, 92, 64, 50),
-('Baryonyx', 'Baryonyx walkeri', 'cretacico', 'https://example.com/dinosaurios/baryonyx.jpg', 3.00, 10.00, 1.70, 600, 70, 78, 50, 62),
-('Albertosaurus', 'Albertosaurus sarcophagus', 'cretacico', 'https://example.com/dinosaurios/albertosaurus.jpg', 3.40, 9.00, 2.50, 680, 82, 85, 55, 70),
-('Gorgosaurus', 'Gorgosaurus libratus', 'cretacico', 'https://example.com/dinosaurios/gorgosaurus.jpg', 3.00, 8.60, 2.00, 620, 83, 83, 52, 72),
-('Compsognathus', 'Compsognathus longipes', 'jurasico', 'https://example.com/dinosaurios/compsognathus.jpg', 0.25, 1.00, 0.01, 30, 85, 20, 10, 98),
-('Coelophysis', 'Coelophysis bauri', 'triasico', 'https://example.com/dinosaurios/coelophysis.jpg', 1.00, 3.00, 0.02, 90, 88, 35, 15, 96),
-('Herrerasaurus', 'Herrerasaurus ischigualastensis', 'triasico', 'https://example.com/dinosaurios/herrerasaurus.jpg', 1.10, 4.00, 0.20, 200, 80, 55, 30, 85),
-('Gallimimus', 'Gallimimus bullatus', 'cretacico', 'https://example.com/dinosaurios/gallimimus.jpg', 1.90, 6.00, 0.44, 260, 95, 25, 30, 97),
-('Ornithomimus', 'Ornithomimus edmonticus', 'cretacico', 'https://example.com/dinosaurios/ornithomimus.jpg', 2.00, 3.80, 0.17, 180, 93, 22, 28, 96),
-('Therizinosaurus', 'Therizinosaurus cheloniformis', 'cretacico', 'https://example.com/dinosaurios/therizinosaurus.jpg', 5.00, 10.00, 5.00, 700, 60, 90, 72, 30),
-('Oviraptor', 'Oviraptor philoceratops', 'cretacico', 'https://example.com/dinosaurios/oviraptor.jpg', 0.90, 2.00, 0.03, 140, 82, 40, 22, 88),
-('Troodon', 'Troodon formosus', 'cretacico', 'https://example.com/dinosaurios/troodon.jpg', 1.00, 2.40, 0.05, 130, 84, 45, 20, 93),
-('Microraptor', 'Microraptor gui', 'cretacico', 'https://example.com/dinosaurios/microraptor.jpg', 0.30, 0.80, 0.01, 40, 78, 22, 8, 97),
-('Archaeopteryx', 'Archaeopteryx lithographica', 'jurasico', 'https://example.com/dinosaurios/archaeopteryx.jpg', 0.30, 0.50, 0.01, 35, 60, 15, 6, 90),
-('Suchomimus', 'Suchomimus tenerensis', 'cretacico', 'https://example.com/dinosaurios/suchomimus.jpg', 4.00, 11.00, 3.80, 720, 70, 80, 55, 58),
+('Baryonyx', 'Baryonyx walkeri', 'cretacico', 'https://th.bing.com/th/id/R.9b4c8141cce8161590c605ddc2357c2d?rik=fC1sAJMWiwfCMA&pid=ImgRaw&r=0', 3.00, 10.00, 1.70, 600, 70, 78, 50, 62),
+('Albertosaurus', 'Albertosaurus sarcophagus', 'cretacico', 'https://media.australian.museum/media/dd/images/Some_image.width-1200.f6d1bf0.jpg', 3.40, 9.00, 2.50, 680, 82, 85, 55, 70),
+('Gorgosaurus', 'Gorgosaurus libratus', 'cretacico', 'https://cdn.sci.news/images/enlarge11/image_12517_1e-Gorgosaurus-libratus.jpg', 3.00, 8.60, 2.00, 620, 83, 83, 52, 72),
+('Compsognathus', 'Compsognathus longipes', 'jurasico', 'https://a-z-animals.com/media/2022/06/Compsognathus-header-1536x922.jpg', 0.25, 1.00, 0.01, 30, 85, 20, 10, 98),
+('Coelophysis', 'Coelophysis bauri', 'triasico', 'https://th.bing.com/th/id/R.f884df70046254019ae9fb481efa787a?rik=ysd3XpVtmh5fBg&pid=ImgRaw&r=0', 1.00, 3.00, 0.02, 90, 88, 35, 15, 96),
+('Herrerasaurus', 'Herrerasaurus ischigualastensis', 'triasico', 'https://tse3.mm.bing.net/th/id/OIP.LD9hcjtYwoQwxoCM691fcAHaFC?r=0&rs=1&pid=ImgDetMain&o=7&rm=3', 1.10, 4.00, 0.20, 200, 80, 55, 30, 85),
+('Gallimimus', 'Gallimimus bullatus', 'cretacico', 'https://vignette.wikia.nocookie.net/dino/images/2/2a/Gallimimus_bullatus.jpg/revision/latest?cb=20171205200334', 1.90, 6.00, 0.44, 260, 95, 25, 30, 97),
+('Ornithomimus', 'Ornithomimus edmonticus', 'cretacico', 'https://tse1.mm.bing.net/th/id/OIP.ToHQP0GIivMmVsPZE8nQxgHaFj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3', 2.00, 3.80, 0.17, 180, 93, 22, 28, 96),
+('Therizinosaurus', 'Therizinosaurus cheloniformis', 'cretacico', 'https://www.paleontologyworld.com/sites/default/files/styles/therizinosaurus_cheloniformis_by_unlobogris.jpg', 5.00, 10.00, 5.00, 700, 60, 90, 72, 30),
+('Oviraptor', 'Oviraptor philoceratops', 'cretacico', 'https://images.fineartamerica.com/images-medium-large-5/2-oviraptor-philoceratops-dinosaur-julius-t-csotonyiscience-photo-library.jpg', 0.90, 2.00, 0.03, 140, 82, 40, 22, 88),
+('Troodon', 'Troodon formosus', 'cretacico', 'https://64.media.tumblr.com/0a543ff0070735815d340a353cd930f2/tumblr_inline_ollk1ohJc21rx4yme_1280.png', 1.00, 2.40, 0.05, 130, 84, 45, 20, 93),
+('Microraptor', 'Microraptor gui', 'cretacico', 'https://th.bing.com/th/id/R.b385520623c46ed54b381f685597a674?rik=QYPuB%2fJxkMY8dg&riu=http%3a%2f%2fnews.bbcimg.co.uk%2fmedia%2fimages%2f76258000%2fjpg%2f_76258953_c0099727-microraptor_gui_di.jpg&ehk=RDmcVAWN59O%2bo2bIPqqUfjwbiHTMC0bSlrFf6OF0wWk%3d&risl=&pid=ImgRaw&r=0', 0.30, 0.80, 0.01, 40, 78, 22, 8, 97),
+('Archaeopteryx', 'Archaeopteryx lithographica', 'jurasico', 'https://tse1.mm.bing.net/th/id/OIP.cIotFfZJFa6-SZq7Ao7c2wHaD4?r=0&rs=1&pid=ImgDetMain&o=7&rm=3', 0.30, 0.50, 0.01, 35, 60, 15, 6, 90),
+('Suchomimus', 'Suchomimus tenerensis', 'cretacico', 'https://a-z-animals.com/media/2022/06/Suchomimus-in-a-forest.jpg', 4.00, 11.00, 3.80, 720, 70, 80, 55, 58),
 ('Acrocanthosaurus', 'Acrocanthosaurus atokensis', 'cretacico', 'https://example.com/dinosaurios/acrocanthosaurus.jpg', 4.00, 11.50, 6.00, 820, 74, 90, 62, 55),
 ('Mapusaurus', 'Mapusaurus roseae', 'cretacico', 'https://example.com/dinosaurios/mapusaurus.jpg', 4.20, 12.00, 5.00, 800, 74, 91, 63, 56),
 ('Majungasaurus', 'Majungasaurus crenatissimus', 'cretacico', 'https://example.com/dinosaurios/majungasaurus.jpg', 3.00, 7.00, 1.10, 560, 78, 80, 50, 68),

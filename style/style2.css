@@ -44,7 +44,6 @@ body {
 
 .titulo {
     padding: 10px 12px;
-    font-family: "Trebuchet MS", sans-serif;
     font-size: 3rem;
     line-height: 1;
     color: #f5c542;
@@ -61,17 +60,12 @@ body {
     height: auto;
 }
 
-/* Banner */
-.banner {
-    min-height: 250px;
-}
-
 /* Tres columnas */
 
 
 .subcuadros {
     padding: 12px;
-    height: 600px;
+    height: 670px;
 }
 
 .central {
@@ -143,9 +137,6 @@ body {
     overflow: hidden;
 }
 
-.panel-filtros{
-    top: 50px;
-}
 
 .scroll {
     flex: 1;
@@ -195,6 +186,7 @@ body {
     height: 65%;          /* ocupa la altura de la columna */
     box-sizing: border-box;
     padding: 14px;
+    margin-bottom: 20px;
     color: #ffeebb;
     background: rgba(0, 0, 0, 0.05);
     border: 2px solid #e0a63e;

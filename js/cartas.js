@@ -60,6 +60,7 @@ function htmlCarta(d) {
           <div class="ph" aria-hidden="true">🦖</div>
           <img src="${esc(d.imagenUrl)}" alt="${esc(d.nombre)}" loading="lazy" onerror="this.remove()">
           <div class="ribbon">${p.e} ${esc(p.n)} <i>${esc(p.r)}</i></div>
+          ${d.copias > 1 ? `<div class="copias">×${d.copias}</div>` : ''}
         </div>
         ${d.rol ? `<div class="role">${esc(d.rol)}</div>` : ''}
         <div class="stats">
