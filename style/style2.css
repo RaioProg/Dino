@@ -17,7 +17,7 @@ body {
     width: 80%;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 30px;
+    gap: 50px;
     padding: 16px;
     border: 2px solid #e8e2cc;
     border-radius: 30px;

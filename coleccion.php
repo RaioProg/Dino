@@ -43,7 +43,7 @@ function segundosRestantes(PDO $pdo, $usuario) {
     return (int)$stmt->fetchColumn();
 }
 
-const ESPERA_SEGUNDOS = 20; // Para cambiar el tiempo de espera, entre sobres
+const ESPERA_SEGUNDOS = 86400; // Para cambiar el tiempo de espera, entre sobres
 
 try {
     $sacadas = [];
