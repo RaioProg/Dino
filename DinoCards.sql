@@ -1,3 +1,4 @@
+drop database dinocards;
 create database if not exists dinocards;
 use dinocards;
 
